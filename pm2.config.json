@@ -1,6 +1,7 @@
 {
-  "app": {
+  "apps": [{
     "name": "real-world",
-    "script": "npm run start",
-  }
+    "script": "npm",
+    "args": "start"
+  }]
 }
