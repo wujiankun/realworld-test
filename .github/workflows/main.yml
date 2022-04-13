@@ -50,7 +50,7 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /root/bolg/realworld
+          cd /root/blog/realworld
           wget https://github.com/wujiankun/realworld-test/releases/latest/download/release.tgz -O release.tgz
           tar zxvf release.tgz
           npm install --production
