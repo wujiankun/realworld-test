@@ -14,7 +14,6 @@ jobs:
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
         SSH_PRIVATE_KEY: ${{ secrets.KEY }}  # 密钥
-        ARGS: '-rltgoDzvO --delete'
         SOURCE: "" # 将要复制到云服务器的静态文件夹
         EXCLUDE: "/node_modules/"
         REMOTE_HOST: ${{ secrets.HOST }} # 云服务器公网地址
