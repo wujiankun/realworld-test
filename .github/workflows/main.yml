@@ -1,29 +1,27 @@
 name: Publish And Deploy This
 on:
   workflow_dispatch:
-  
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+    # 下载源码
+    - name: Checkout
+      uses: actions/checkout@master
 
-      # 下载源码
-      - name: Checkout
-        uses: actions/checkout@master
+    # 部署到服务器
+    - name: Deploy-CopyCodeToServer
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.KEY }}  # 密钥
+        ARGS: '-rltgoDzvO --delete'
+        SOURCE: "" # 将要复制到云服务器的静态文件夹
+        EXCLUDE: "/node_modules/"
+        REMOTE_HOST: ${{ secrets.HOST }} # 云服务器公网地址
+        REMOTE_USER: ${{ secrets.USERNAME }} # 服务器用户名
+        TARGET: "/root/bolg/realworld" # 打包后的文件夹将放在目录
 
-      # 部署到服务器
-      - name: Deploy-CopyCodeToServer
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.KEY }}  # 密钥
-          ARGS: '-rltgoDzvO --delete'
-          SOURCE: "" # 将要复制到云服务器的静态文件夹
-          EXCLUDE: "/node_modules/"
-          REMOTE_HOST: ${{ secrets.HOST }} # 云服务器公网地址
-          REMOTE_USER: ${{ secrets.USERNAME }} # 服务器用户名
-          TARGET: "/root/bolg/realworld" # 打包后的文件夹将放在目录
-
-      - name: Deploy-install-run
+    - name: Deploy-install-run
       uses: appleboy/ssh-action@master
       with:
        host: ${{ secrets.HOST }}
@@ -36,17 +34,17 @@ jobs:
          npm run build
          pm2 reload pm2.config.json
 
-      # 发布 Release
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+    # 发布 Release
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
 
 
 
