@@ -50,7 +50,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_PRI_KEY }}
           port: ${{ secrets.PORT }}
           script: |
             cd /root/realworld-ci-cd
