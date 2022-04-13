@@ -11,7 +11,7 @@ jobs:
 
     # 部署到服务器
     - name: Deploy-CopyCodeToServer
-      uses: easingthemes/ssh-deploy@v2.1.5
+      uses: easingthemes/ssh-deploy@v2.2.11
       env:
         SSH_PRIVATE_KEY: ${{ secrets.KEY }}  # 密钥
         SOURCE: "" # 将要复制到云服务器的静态文件夹
